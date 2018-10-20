@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import './App.css'
 
+import BEMHelperFactory from '../library/bem-helper'
 import Carousel from './Carousel'
 
 const sampleImages = [{
@@ -26,11 +27,13 @@ const sampleImages = [{
   imageUrl: new URL('https://pixabay.com/get/ed36b90b2bf61c22d2524518b7454093e577e4d004b014429cf9c47fa1e8b1_640.jpg')
 }]
 
+const BEMHelper = BEMHelperFactory('app')
+
 class App extends React.Component {
   public render () {
     return (
-      <div className='app'>
-        <header className='app__header'>
+      <div {...BEMHelper()}>
+        <header {...BEMHelper('header')}>
           <h1>Carousel Test</h1>
         </header>
         <Carousel items={sampleImages} />

@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { Url } from 'url'
 
+import BEMHelperFactory from '../library/bem-helper'
+
 interface ICarouselItem {
   imageUrl: Url
 }
@@ -8,6 +10,8 @@ interface ICarouselItem {
 interface IProps {
   items: ICarouselItem[]
 }
+
+const BEMHelper = BEMHelperFactory('carousel')
 
 export default class Carousel extends React.Component<IProps> {
   constructor (props: IProps) {
@@ -18,7 +22,7 @@ export default class Carousel extends React.Component<IProps> {
 
   public render () {
     return (
-      <div className='carousel'>
+      <div {...BEMHelper()}>
         {this.renderSlides()}
         {this.renderPreviousAndNextButtons()}
       </div>
@@ -27,10 +31,10 @@ export default class Carousel extends React.Component<IProps> {
 
   public renderSlides () {
     return (
-      <div className='carousel__slide-container'>
+      <div {...BEMHelper('slide-container')}>
         {this.props.items.map((item, index) => {
           return (
-            <div key={`slide_${index}`} className='carousel__slide'>
+            <div key={`slide_${index}`} {...BEMHelper('slide')}>
               <img src={item.imageUrl.toString()} />
             </div>
           )
