@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { Url } from 'url'
 
+import './Carousel.css'
+
 import BEMHelperFactory from '../library/bem-helper'
 
 interface ICarouselItem {
