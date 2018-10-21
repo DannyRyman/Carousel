@@ -1,12 +1,13 @@
 import * as React from 'react'
-import { Url } from 'url'
 
 import './Carousel.css'
 
 import BEMHelperFactory from '../library/bem-helper'
 
 interface ICarouselItem {
-  imageUrl: Url
+  imageUrl: URL,
+  user: string,
+  likes: number
 }
 
 interface IProps {
@@ -55,6 +56,14 @@ export default class Carousel extends React.Component<IProps, ICarouselState> {
               {...BEMHelper('slide', index === this.state.selectedIndex ? ['selected'] : [])}
             >
               <img src={item.imageUrl.toString()} />
+              <div {...BEMHelper('slide-label')}>
+                <span
+                  {...BEMHelper('slide-user')}
+                >User: {item.user}</span>
+                <span
+                  {...BEMHelper('slide-likes')}
+                >Likes: {item.likes}</span>
+              </div>
             </div>
           )
         })}

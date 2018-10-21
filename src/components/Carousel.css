@@ -9,15 +9,23 @@
 .carousel__slide {
     flex: 1;
     display: flex;
-    justify-content: center;
+    border: 1px solid red;
+    flex-direction: column;
+    border: 0.5rem solid transparent;
 }
 
-.carousel__slide:first-child > span { margin-right: auto; }
-
-.carousel__slide:last-child  > span { margin-left: auto;  }
+.carousel__slide-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
 .carousel__slide > img {
     display: block;
     height: 20rem;
     width: auto;
+}
+
+.carousel__btn {
+    width: 10rem;
 }

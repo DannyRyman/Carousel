@@ -8,7 +8,9 @@ import Carousel from './Carousel'
 
 const items = [1, 2, 3, 4, 5]
   .map(index => ({
-    imageUrl: new URL(`http://image_${index}`)
+    imageUrl: new URL(`http://image_${index}`),
+    likes: index,
+    user: `user_${index}`
   }))
 
 test('Renders the expected images on load', () => {
