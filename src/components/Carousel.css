@@ -29,3 +29,9 @@
 .carousel__btn {
     width: 10rem;
 }
+
+@media only screen and (max-width: 768px) {
+    .carousel__slide:not(.carousel__slide-selected) {
+        display: none;
+    }
+}
