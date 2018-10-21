@@ -31,7 +31,7 @@ test('Clicking next cycles right', () => {
 })
 
 function loadCarousel () {
-  return shallow(<Carousel items={items} />)
+  return shallow(<Carousel items={items} isSmallScreen={false} />)
 }
 
 function assertShownSlides (

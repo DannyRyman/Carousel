@@ -1,4 +1,5 @@
 import * as React from 'react'
+import MediaQuery from 'react-responsive'
 import { ScaleLoader } from 'react-spinners'
 
 import './App.css'
@@ -46,21 +47,30 @@ class App extends React.Component<{}, IAppState> {
 
   public render () {
     return (
-      <div {...BEMHelper()}>
-        <header {...BEMHelper('header')}>
-          <h1>Carousel Test</h1>
-        </header>
-        {this.state.error && <span>Error: {this.state.error}</span>}
-        {this.state.loading
-        ? <ScaleLoader
-            {...BEMHelper('spinner')}
-            height={30}
-            width={30}
-            color={'#36D7B7'}
-          />
-        : <Carousel items={this.state.items} />
+      <MediaQuery
+        maxDeviceWidth={768}>
+        {(matches: boolean) => {
+          return <div {...BEMHelper()}>
+            <header {...BEMHelper('header')}>
+              <h1>Carousel Test</h1>
+            </header>
+            {this.state.error && <span>Error: {this.state.error}</span>}
+            {this.state.loading
+            ? <ScaleLoader
+                {...BEMHelper('spinner')}
+                height={30}
+                width={30}
+                color={'#36D7B7'}
+              />
+            : <Carousel
+                items={this.state.items}
+                isSmallScreen={matches}
+              />
+            }
+          </div>
         }
-      </div>
+      }
+      </MediaQuery>
     )
   }
 }

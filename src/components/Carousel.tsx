@@ -11,7 +11,8 @@ export interface ICarouselItem {
 }
 
 interface IProps {
-  items: ICarouselItem[]
+  items: ICarouselItem[],
+  isSmallScreen: boolean
 }
 
 interface ICarouselState {
@@ -38,7 +39,7 @@ export default class Carousel extends React.Component<IProps, ICarouselState> {
     return (
       <div {...BEMHelper()}>
         {this.renderSlides()}
-        {this.renderPreviousAndNextButtons()}
+        {!this.props.isSmallScreen && this.renderPreviousAndNextButtons()}
       </div>
     )
   }
@@ -67,6 +68,7 @@ export default class Carousel extends React.Component<IProps, ICarouselState> {
             </div>
           )
         })}
+        {this.props.isSmallScreen && this.renderPreviousAndNextButtons()}
       </div>
     )
   }
