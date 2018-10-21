@@ -13,13 +13,24 @@ interface IProps {
   items: ICarouselItem[]
 }
 
+interface ICarouselState {
+  selectedIndex: number
+}
+
 const BEMHelper = BEMHelperFactory('carousel')
 
-export default class Carousel extends React.Component<IProps> {
+export default class Carousel extends React.Component<IProps, ICarouselState> {
   constructor (props: IProps) {
     super(props)
     this.renderSlides = this.renderSlides.bind(this)
     this.renderPreviousAndNextButtons = this.renderPreviousAndNextButtons.bind(this)
+    this.calcPreviousIndex = this.calcPreviousIndex.bind(this)
+    this.calcNextIndex = this.calcNextIndex.bind(this)
+    this.onPrevious = this.onPrevious.bind(this)
+    this.onNext = this.onNext.bind(this)
+    this.state = {
+      selectedIndex: 0
+    }
   }
 
   public render () {
@@ -32,11 +43,17 @@ export default class Carousel extends React.Component<IProps> {
   }
 
   public renderSlides () {
+    const slidesToShow = [this.calcPreviousIndex(), this.state.selectedIndex, this.calcNextIndex()]
     return (
       <div {...BEMHelper('slide-container')}>
-        {this.props.items.map((item, index) => {
+        {slidesToShow.map(index => {
+          const item = this.props.items[index]
           return (
-            <div key={`slide_${index}`} {...BEMHelper('slide')}>
+            <div
+              key={`slide_${index}`}
+              data-index={index}
+              {...BEMHelper('slide', index === this.state.selectedIndex ? ['selected'] : [])}
+            >
               <img src={item.imageUrl.toString()} />
             </div>
           )
@@ -48,9 +65,45 @@ export default class Carousel extends React.Component<IProps> {
   public renderPreviousAndNextButtons () {
     return (
       <>
-        <button>Previous</button>
-        <button>Next</button>
+        <button
+          {...BEMHelper('btn', ['previous'])}
+          onClick={this.onPrevious}
+        >Previous
+        </button>
+        <button
+          {...BEMHelper('btn', ['next'])}
+          onClick={this.onNext}
+        >Next
+        </button>
       </>
     )
+  }
+
+  private calcPreviousIndex () {
+    return this.state.selectedIndex === 0
+      ? this.props.items.length - 1
+      : this.state.selectedIndex - 1
+  }
+
+  private onPrevious () {
+    const newIndex = this.calcPreviousIndex()
+
+    this.setState({
+      selectedIndex: newIndex
+    })
+  }
+
+  private calcNextIndex () {
+    return this.state.selectedIndex === this.props.items.length - 1
+      ? 0
+      : this.state.selectedIndex + 1
+  }
+
+  private onNext () {
+    const newIndex = this.calcNextIndex()
+
+    this.setState({
+      selectedIndex: newIndex
+    })
   }
 }

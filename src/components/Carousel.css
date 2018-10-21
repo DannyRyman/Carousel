@@ -6,6 +6,16 @@
     overflow-x: hidden;
 }
 
+.carousel__slide {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.carousel__slide:first-child > span { margin-right: auto; }
+
+.carousel__slide:last-child  > span { margin-left: auto;  }
+
 .carousel__slide > img {
     display: block;
     height: 20rem;
