@@ -55,7 +55,7 @@ export default class Carousel extends React.Component<IProps, ICarouselState> {
               data-index={index}
               {...BEMHelper('slide', index === this.state.selectedIndex ? ['selected'] : [])}
             >
-              <img src={item.imageUrl.toString()} />
+              <img src={item.imageUrl.toString()} alt={item.user} />
               <div {...BEMHelper('slide-label')}>
                 <span
                   {...BEMHelper('slide-user')}
