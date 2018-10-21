@@ -1,42 +1,65 @@
 import * as React from 'react'
+import { ScaleLoader } from 'react-spinners'
 
 import './App.css'
 
 import BEMHelperFactory from '../library/bem-helper'
-import Carousel from './Carousel'
-
-const sampleImages = [{
-  imageUrl: new URL('https://pixabay.com/get/ea35b60821f6093ed1584d05fb1d4f90e671e2d31cac104491f0c079afebb3bc_640.jpg'),
-  likes: 1,
-  user: 'user1'
-}, {
-  imageUrl: new URL('https://pixabay.com/get/e835b60d20f6093ed1584d05fb1d4f90e671e2d31cac104491f0c079afebb3bc_640.jpg'),
-  likes: 2,
-  user: 'user2'
-}, {
-  imageUrl: new URL('https://pixabay.com/get/e833b90b28f1033ed1584d05fb1d4f90e671e2d31cac104491f0c079afebb3bc_640.jpg'),
-  likes: 3,
-  user: 'user3'
-}, {
-  imageUrl: new URL('https://pixabay.com/get/eb35b90f28f3033ed1584d05fb1d4f90e671e2d31cac104491f0c079afebb3bc_640.jpg'),
-  likes: 4,
-  user: 'user4'
-}, {
-  imageUrl: new URL('https://pixabay.com/get/e83cb6062df0073ed1584d05fb1d4f90e671e2d31cac104491f0c079afebb3bc_640.jpg'),
-  likes: 5,
-  user: 'user5'
-}]
+import Carousel, { ICarouselItem } from './Carousel'
 
 const BEMHelper = BEMHelperFactory('app')
 
-class App extends React.Component {
+interface IAppState {
+  error: string,
+  loading: boolean
+  items: ICarouselItem[]
+}
+
+class App extends React.Component<{}, IAppState> {
+  constructor (props: {}) {
+    super(props)
+    this.state = {
+      error: '',
+      items: [],
+      loading: true
+    }
+  }
+
+  public componentDidMount () {
+    // todo this should be moved into a library and the API key should be retrieved from configuration
+    fetch('https://pixabay.com/api/?key=9656065-a4094594c34f9ac14c7fc4c39&q=fantasy&image_type=photo')
+      .then(res => res.json())
+      .then(result => {
+        this.setState({
+          items: result.hits.map((i: any) => ({
+            imageUrl: i.webformatURL,
+            likes: i.likes,
+            user: i.user
+          })),
+          loading: false
+        })
+      }, (error) => {
+        this.setState({
+          error
+        })
+      })
+  }
+
   public render () {
     return (
       <div {...BEMHelper()}>
         <header {...BEMHelper('header')}>
           <h1>Carousel Test</h1>
         </header>
-        <Carousel items={sampleImages} />
+        {this.state.error && <span>Error: {this.state.error}</span>}
+        {this.state.loading
+        ? <ScaleLoader
+            {...BEMHelper('spinner')}
+            height={30}
+            width={30}
+            color={'#36D7B7'}
+          />
+        : <Carousel items={this.state.items} />
+        }
       </div>
     )
   }

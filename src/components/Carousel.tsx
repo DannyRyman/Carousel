@@ -4,7 +4,7 @@ import './Carousel.css'
 
 import BEMHelperFactory from '../library/bem-helper'
 
-interface ICarouselItem {
+export interface ICarouselItem {
   imageUrl: URL,
   user: string,
   likes: number
